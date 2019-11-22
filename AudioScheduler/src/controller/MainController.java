@@ -8,6 +8,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
 import model.ViewType;
 
@@ -22,7 +24,12 @@ public class MainController implements Initializable
 	@FXML private Button editEvent;
 	@FXML private Button deleteEvent;
 	@FXML private Button pauseSchedule;
-
+	
+    @FXML private TableView<?> table;
+    @FXML private TableColumn<?, ?> eventTime;
+    @FXML private TableColumn<?, ?> eventName;
+    @FXML private TableColumn<?, ?> eventFile;
+    
 	private MainController() {
 
 	}
