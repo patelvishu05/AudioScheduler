@@ -1,11 +1,14 @@
 package controller;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -30,6 +33,8 @@ public class MainController implements Initializable
     @FXML private TableColumn<?, ?> eventName;
     @FXML private TableColumn<?, ?> eventFile;
     
+    public static ViewType currentView;
+    
 	private MainController() {
 
 	}
@@ -47,6 +52,26 @@ public class MainController implements Initializable
 
 		switch(view) 
 		{
+		case VIEW1:	viewString = "../view/AddEvent.fxml";
+			controller = new AddEventController();
+			currentView = ViewType.VIEW1;
+			break;
+		case VIEW2:
+			break;
+			default:
+		}
+		
+		try
+		{
+			URL url = this.getClass().getResource(viewString);
+			FXMLLoader loader = new FXMLLoader(url);
+			loader.setController(controller);
+			Parent viewNode = loader.load();
+			borderPane.setCenter(viewNode);
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
 		}
 	}
 
@@ -57,7 +82,8 @@ public class MainController implements Initializable
 
 	@FXML
 	void clickedNewEvent(ActionEvent event) {
-
+		if (!(currentView == ViewType.VIEW1)) 
+			switchView(ViewType.VIEW1);
 	}
 
 	@FXML

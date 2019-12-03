@@ -20,9 +20,9 @@
          <children>
             <MenuBar>
               <menus>
-                <Menu mnemonicParsing="false" text="File">
+                <Menu mnemonicParsing="false" text="Home">
                   <items>
-                    <MenuItem mnemonicParsing="false" text="Close" />
+                    <MenuItem fx:id="homePage" mnemonicParsing="false" onAction="#homePage" text="Home" />
                   </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Help">
