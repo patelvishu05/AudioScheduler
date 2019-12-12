@@ -133,7 +133,7 @@ public class MainController implements Initializable
 
 	@FXML
 	void clickedPauseSchedule(ActionEvent event) {
-
+		
 	}
 
 	@FXML
@@ -143,7 +143,25 @@ public class MainController implements Initializable
 
 	@FXML
 	void clickedStopAll(ActionEvent event) {
-
+		String filePath = new File(".").getAbsolutePath();
+		filePath = filePath.substring(0,filePath.length()-1);
+		
+		String command = "SCHTASKS /CHANGE /TN \"MyTasks\\Aarti\" /DISABLE";
+		
+		command = command.replace("\\\\", "\\");
+		System.out.println(command);
+		Runtime rt = Runtime.getRuntime();
+		try
+		{
+		rt.exec(new String[] {
+			"cmd.exe",
+			"/c",
+			command
+		});
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 

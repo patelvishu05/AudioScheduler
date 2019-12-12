@@ -124,12 +124,18 @@ public class AddEventController implements MyController {
 		System.out.println(filePath);
 		
 		String command = 	"SCHTASKS /CREATE /SC DAILY" + 
-							" /TN \"MyTasks\\" + taskName + " Start task\"" + 
+							" /TN \"MyTasks\\" + taskName + "\"" + 
 							" /TR \"PowerShell.exe -WindowStyle hidden -Command Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass; " +
 							"Start-Process vlc.exe " + filePath + "\\" + taskName + ".m3u\"" +
 							" /ST " + startTime;
+		
+		String command2 = "SCHTASKS /CREATE /SC DAILY"+
+						  " /TN \"MyTasks\\" + taskName +"stop\""+  
+						  " /TR \"" + filePath + "\\stopVlc.bat\" "
+						  + "/ST " + stopTime;
 				
 		command = command.replace("\\\\", "\\");
+		command2 = command2.replace("\\\\", "\\");
 		System.out.println(command);
 		Runtime rt = Runtime.getRuntime();
 		rt.exec(new String[] {
@@ -137,6 +143,14 @@ public class AddEventController implements MyController {
 			"/c",
 			command
 		});
+		
+		System.out.println(command2);
+		rt.exec(new String[] {
+				"cmd.exe",
+				"/c",
+				command2
+			});
+		
 	}
 
 }
