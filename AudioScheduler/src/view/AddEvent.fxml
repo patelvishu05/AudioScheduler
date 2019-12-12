@@ -7,8 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="457.0" prefWidth="647.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+<AnchorPane prefHeight="457.0" prefWidth="647.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label layoutX="51.0" layoutY="199.0" text="Start Time :">
          <font>
@@ -32,37 +31,37 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <CheckBox mnemonicParsing="false" prefHeight="27.0" prefWidth="115.0" text="Monday">
+            <CheckBox fx:id="monday" mnemonicParsing="false" onAction="#getSelectedDay" prefHeight="27.0" prefWidth="115.0" text="Monday">
                <font>
                   <Font size="18.0" />
                </font>
             </CheckBox>
-            <CheckBox mnemonicParsing="false" prefHeight="27.0" prefWidth="115.0" text="Tuesday" GridPane.rowIndex="1">
+            <CheckBox fx:id="tuesday" mnemonicParsing="false" onAction="#getSelectedDay" prefHeight="27.0" prefWidth="115.0" text="Tuesday" GridPane.rowIndex="1">
                <font>
                   <Font size="18.0" />
                </font>
             </CheckBox>
-            <CheckBox mnemonicParsing="false" prefHeight="27.0" prefWidth="136.0" text="Wednesday" GridPane.rowIndex="2">
+            <CheckBox fx:id="wednesday" mnemonicParsing="false" onAction="#getSelectedDay" prefHeight="27.0" prefWidth="136.0" text="Wednesday" GridPane.rowIndex="2">
                <font>
                   <Font size="18.0" />
                </font>
             </CheckBox>
-            <CheckBox mnemonicParsing="false" prefHeight="21.0" prefWidth="115.0" text="Thursday" GridPane.rowIndex="3">
+            <CheckBox fx:id="thursday" mnemonicParsing="false" onAction="#getSelectedDay" prefHeight="21.0" prefWidth="115.0" text="Thursday" GridPane.rowIndex="3">
                <font>
                   <Font size="18.0" />
                </font>
             </CheckBox>
-            <CheckBox mnemonicParsing="false" prefHeight="21.0" prefWidth="115.0" text="Friday" GridPane.columnIndex="1">
+            <CheckBox fx:id="friday" mnemonicParsing="false" onAction="#getSelectedDay" prefHeight="21.0" prefWidth="115.0" text="Friday" GridPane.columnIndex="1">
                <font>
                   <Font size="18.0" />
                </font>
             </CheckBox>
-            <CheckBox mnemonicParsing="false" prefHeight="21.0" prefWidth="115.0" text="Saturday" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <CheckBox fx:id="saturday" mnemonicParsing="false" onAction="#getSelectedDay" prefHeight="21.0" prefWidth="115.0" text="Saturday" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <font>
                   <Font size="18.0" />
                </font>
             </CheckBox>
-            <CheckBox mnemonicParsing="false" prefHeight="21.0" prefWidth="115.0" text="Sunday" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <CheckBox fx:id="sunday" mnemonicParsing="false" onAction="#getSelectedDay" prefHeight="21.0" prefWidth="115.0" text="Sunday" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <font>
                   <Font size="18.0" />
                </font>
@@ -74,17 +73,17 @@
             <Font size="17.0" />
          </font>
       </Button>
-      <Button layoutX="200.0" layoutY="389.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="281.0" text="Save">
+      <Button fx:id="save" defaultButton="true" layoutX="200.0" layoutY="389.0" mnemonicParsing="false" onAction="#clickedSave" prefHeight="31.0" prefWidth="281.0" text="Save">
          <font>
             <Font size="22.0" />
          </font>
       </Button>
-      <CheckBox layoutX="283.0" layoutY="342.0" mnemonicParsing="false" prefHeight="21.0" prefWidth="115.0" text="Shuffle">
+      <CheckBox fx:id="shuffle" layoutX="283.0" layoutY="342.0" mnemonicParsing="false" onAction="#shufflePlaylist" prefHeight="21.0" prefWidth="115.0" text="Shuffle">
          <font>
             <Font size="18.0" />
          </font>
       </CheckBox>
-      <TextArea fx:id="filePath" layoutX="23.0" layoutY="53.0" prefHeight="34.0" prefWidth="602.0" />
+      <TextArea fx:id="name" layoutX="23.0" layoutY="53.0" prefHeight="34.0" prefWidth="602.0" />
       <TextArea fx:id="endTime" layoutX="173.0" layoutY="263.0" prefHeight="34.0" prefWidth="125.0" />
       <TextArea fx:id="startTime" layoutX="173.0" layoutY="199.0" prefHeight="34.0" prefWidth="125.0" />
    </children>

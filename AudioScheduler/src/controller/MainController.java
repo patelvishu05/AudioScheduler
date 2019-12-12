@@ -1,9 +1,14 @@
 package controller;
 
+import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,6 +16,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
@@ -27,14 +33,11 @@ public class MainController implements Initializable
 	@FXML private Button editEvent;
 	@FXML private Button deleteEvent;
 	@FXML private Button pauseSchedule;
-	
-    @FXML private TableView<?> table;
-    @FXML private TableColumn<?, ?> eventTime;
-    @FXML private TableColumn<?, ?> eventName;
-    @FXML private TableColumn<?, ?> eventFile;
-    
-    public static ViewType currentView;
-    
+
+	@FXML private ListView listView;
+
+	public static ViewType currentView;
+
 	private MainController() {
 
 	}
@@ -53,14 +56,14 @@ public class MainController implements Initializable
 		switch(view) 
 		{
 		case VIEW1:	viewString = "../view/AddEvent.fxml";
-			controller = new AddEventController();
-			currentView = ViewType.VIEW1;
-			break;
+		controller = new AddEventController();
+		currentView = ViewType.VIEW1;
+		break;
 		case VIEW2:
 			break;
-			default:
+		default:
 		}
-		
+
 		try
 		{
 			URL url = this.getClass().getResource(viewString);
@@ -77,7 +80,23 @@ public class MainController implements Initializable
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		File directoryPath = new File(".");
+		File[] files=directoryPath.listFiles(new FilenameFilter() {
+			@Override
+			public boolean accept(File dir, String name) {
+				return name.endsWith(".m3u");
+			}
+		});
 
+		ArrayList<String> m3uFiles = new ArrayList<String>();
+		for (File file : files) {
+			String name = file.getName();
+			m3uFiles.add(name.substring(0,name.length()-4));
+		}
+		
+		ObservableList<String> obs = FXCollections.observableArrayList();
+		obs.addAll(m3uFiles);
+		listView.setItems(obs);
 	}
 
 	@FXML
@@ -88,6 +107,12 @@ public class MainController implements Initializable
 
 	@FXML
 	void clickedDeleteEvent(ActionEvent event) {
+		if (!(currentView == ViewType.VIEW1)) 
+			switchView(ViewType.VIEW1);
+	}
+
+	@FXML
+	void homePage() {
 
 	}
 
