@@ -78,7 +78,7 @@
             <Font size="22.0" />
          </font>
       </Button>
-      <CheckBox fx:id="shuffle" layoutX="283.0" layoutY="342.0" mnemonicParsing="false" onAction="#shufflePlaylist" prefHeight="21.0" prefWidth="115.0" text="Shuffle">
+      <CheckBox fx:id="shuffle" layoutX="283.0" layoutY="342.0" mnemonicParsing="false" prefHeight="21.0" prefWidth="115.0" text="Shuffle">
          <font>
             <Font size="18.0" />
          </font>

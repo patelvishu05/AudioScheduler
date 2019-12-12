@@ -8,6 +8,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Timer;
@@ -60,23 +61,9 @@ public class AddEventController implements MyController {
 		playlist.getRoutine().put("saturday", saturday.isSelected());
 	}
 
-	@FXML
-	void shufflePlaylist() {
-
-	}
-
-	@FXML
-	void clickedSave() {
-		if(mp3Files == null)
-			return;
-		FileWriter fw = null;
-		try
+	void displayHomePage() {
+		try 
 		{
-			fw = new FileWriter(name.getText() + ".m3u");
-			for(File f : mp3Files)
-				fw.append(f.toString()+ "\n");
-			fw.close();
-			
 			URL url = Main.class.getResource("../view/MainView.fxml");
 			FXMLLoader loader = new FXMLLoader(url);
 			MainController controller = MainController.getInstance();
@@ -86,6 +73,29 @@ public class AddEventController implements MyController {
 			Main.stage.setScene(new Scene(rootNode));
 			Main.stage.show();
 			MainController.currentView = ViewType.HOME;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}	
+	}
+
+	@FXML
+	void clickedSave() {
+		if(mp3Files == null)
+			return;
+//		if(shuffle.isSelected())
+//			Collections.shuffle(mp3Files);
+		
+		FileWriter fw = null;
+		
+		try
+		{
+			fw = new FileWriter(name.getText() + ".m3u");
+			for(File f : mp3Files)
+				fw.append(f.toString()+ "\n");
+			fw.close();
+			
+			createTask(name.getText(),startTime.getText(),endTime.getText());
+			
 		}
 		catch(Exception e)
 		{
@@ -105,6 +115,28 @@ public class AddEventController implements MyController {
 		List<File> selected = chooser.showOpenMultipleDialog(Main.stage);
 
 		return selected != null? selected : new ArrayList<File>();
+	}
+	
+	void createTask(String taskName, String startTime, String stopTime) throws IOException 
+	{
+		String filePath = new File(".").getAbsolutePath();
+		filePath = filePath.substring(0,filePath.length()-1);
+		System.out.println(filePath);
+		
+		String command = 	"SCHTASKS /CREATE /SC DAILY" + 
+							" /TN \"MyTasks\\" + taskName + " Start task\"" + 
+							" /TR \"PowerShell.exe -WindowStyle hidden -Command Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass; " +
+							"Start-Process vlc.exe " + filePath + "\\" + taskName + ".m3u\"" +
+							" /ST " + startTime;
+				
+		command = command.replace("\\\\", "\\");
+		System.out.println(command);
+		Runtime rt = Runtime.getRuntime();
+		rt.exec(new String[] {
+			"cmd.exe",
+			"/c",
+			command
+		});
 	}
 
 }
@@ -160,3 +192,7 @@ public class AddEventController implements MyController {
 ////		e.printStackTrace();
 ////	}	
 //}
+//FileWriter fw = new FileWriter(taskName + ".ps1");
+//fw.append(("Start-Process vlc.exe " + filePath + "\\" + taskName + ".m3u").replace("\\\\", "\\"));
+//System.out.println(fw.toString());
+//fw.close();

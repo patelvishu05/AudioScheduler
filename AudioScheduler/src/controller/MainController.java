@@ -80,6 +80,10 @@ public class MainController implements Initializable
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		displayListView();
+	}
+	
+	void displayListView() {
 		File directoryPath = new File(".");
 		File[] files=directoryPath.listFiles(new FilenameFilter() {
 			@Override
@@ -93,10 +97,11 @@ public class MainController implements Initializable
 			String name = file.getName();
 			m3uFiles.add(name.substring(0,name.length()-4));
 		}
-		
+
 		ObservableList<String> obs = FXCollections.observableArrayList();
 		obs.addAll(m3uFiles);
 		listView.setItems(obs);
+		listView.setStyle("-fx-font-size: 20px;");
 	}
 
 	@FXML
@@ -107,8 +112,13 @@ public class MainController implements Initializable
 
 	@FXML
 	void clickedDeleteEvent(ActionEvent event) {
-		if (!(currentView == ViewType.VIEW1)) 
-			switchView(ViewType.VIEW1);
+		//TODO : delete from scheduled tasks also
+		if(listView.getSelectionModel().getSelectedItem() != null)
+		{
+			String fileName = listView.getSelectionModel().getSelectedItem().toString() + ".m3u";
+			new File(fileName).delete();
+			displayListView();
+		}
 	}
 
 	@FXML
