@@ -95,7 +95,7 @@ public class AddEventController implements MyController {
 			fw.close();
 			
 			createTask(name.getText(),startTime.getText(),endTime.getText());
-			
+			displayHomePage();
 		}
 		catch(Exception e)
 		{

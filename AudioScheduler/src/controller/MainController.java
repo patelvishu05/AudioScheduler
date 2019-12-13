@@ -7,6 +7,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import application.Main;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -14,9 +15,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
@@ -33,8 +38,11 @@ public class MainController implements Initializable
 	@FXML private Button editEvent;
 	@FXML private Button deleteEvent;
 	@FXML private Button pauseSchedule;
+	@FXML private MenuItem about;
+	@FXML private MenuItem homePage;
 
 	@FXML private ListView listView;
+	private ArrayList<String> filesData;
 
 	public static ViewType currentView;
 
@@ -82,7 +90,7 @@ public class MainController implements Initializable
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		displayListView();
 	}
-	
+
 	void displayListView() {
 		File directoryPath = new File(".");
 		File[] files=directoryPath.listFiles(new FilenameFilter() {
@@ -97,6 +105,9 @@ public class MainController implements Initializable
 			String name = file.getName();
 			m3uFiles.add(name.substring(0,name.length()-4));
 		}
+		
+		filesData = m3uFiles;
+		
 
 		ObservableList<String> obs = FXCollections.observableArrayList();
 		obs.addAll(m3uFiles);
@@ -112,18 +123,56 @@ public class MainController implements Initializable
 
 	@FXML
 	void clickedDeleteEvent(ActionEvent event) {
-		//TODO : delete from scheduled tasks also
+		String fileName = "";
 		if(listView.getSelectionModel().getSelectedItem() != null)
 		{
-			String fileName = listView.getSelectionModel().getSelectedItem().toString() + ".m3u";
+			String taskName = listView.getSelectionModel().getSelectedItem().toString();
+			fileName = taskName + ".m3u";
 			new File(fileName).delete();
+
+			String command = "SCHTASKS /DELETE /TN \"MyTasks\\"+ taskName + "\" /f";
+			String command1 = "SCHTASKS /DELETE /TN \"MyTasks\\"+ taskName + "stop\" /f";
+
+			command = command.replace("\\\\", "\\");
+			System.out.println(command);
+			Runtime rt = Runtime.getRuntime();
+			try
+			{
+				rt.exec(new String[] {
+						"cmd.exe",
+						"/c",
+						command,
+				});
+				rt.exec(new String[] {
+						"cmd.exe",
+						"/c",
+						command1,
+				});
+			}
+			catch(Exception e) {
+				e.printStackTrace();
+			}
+
 			displayListView();
 		}
 	}
 
 	@FXML
 	void homePage() {
-
+		try 
+		{
+			URL url = Main.class.getResource("../view/MainView.fxml");
+			FXMLLoader loader = new FXMLLoader(url);
+			MainController controller = MainController.getInstance();
+			loader.setController(controller);
+			Parent rootNode = loader.load();			
+			controller.setBorderPane((BorderPane) rootNode);
+			Main.stage.setScene(new Scene(rootNode));
+			Main.stage.show();
+			MainController.currentView = ViewType.HOME;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@FXML
@@ -133,31 +182,53 @@ public class MainController implements Initializable
 
 	@FXML
 	void clickedPauseSchedule(ActionEvent event) {
-		
+
 	}
 
 	@FXML
 	void clickedRunSchedule(ActionEvent event) {
-
+		for(String s : filesData)
+			tasker(s,"ENABLE");
 	}
 
 	@FXML
 	void clickedStopAll(ActionEvent event) {
+		for(String s : filesData)
+			tasker(s,"DISABLE");
+	}
+	
+	@FXML
+	void credits(ActionEvent event) {
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("About");
+		alert.setHeaderText(null);
+		alert.setContentText("Made by your very Awesome friend Vishal :) ");
+
+		alert.showAndWait();
+	}
+	
+	void tasker(String taskName, String change) {
 		String filePath = new File(".").getAbsolutePath();
 		filePath = filePath.substring(0,filePath.length()-1);
-		
-		String command = "SCHTASKS /CHANGE /TN \"MyTasks\\Aarti\" /DISABLE";
-		
+
+		String command = "SCHTASKS /CHANGE /TN \"MyTasks\\"+ taskName + "\" /"+ change;
+		String command1 = "SCHTASKS /CHANGE /TN \"MyTasks\\"+ taskName + "stop\" /"+ change;
+
 		command = command.replace("\\\\", "\\");
 		System.out.println(command);
 		Runtime rt = Runtime.getRuntime();
 		try
 		{
-		rt.exec(new String[] {
-			"cmd.exe",
-			"/c",
-			command
-		});
+			rt.exec(new String[] {
+					"cmd.exe",
+					"/c",
+					command
+			});
+			rt.exec(new String[] {
+					"cmd.exe",
+					"/c",
+					command1
+			});
 		}
 		catch(Exception e) {
 			e.printStackTrace();

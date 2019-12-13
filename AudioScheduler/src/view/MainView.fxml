@@ -25,9 +25,9 @@
                     <MenuItem fx:id="homePage" mnemonicParsing="false" onAction="#homePage" text="Home" />
                   </items>
                 </Menu>
-                <Menu mnemonicParsing="false" text="Help">
+                <Menu mnemonicParsing="false" text="About">
                   <items>
-                    <MenuItem mnemonicParsing="false" text="About" />
+                    <MenuItem fx:id="about" mnemonicParsing="false" onAction="#credits" text="About" />
                   </items>
                 </Menu>
               </menus>
@@ -45,12 +45,12 @@
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="editEvent" mnemonicParsing="false" onAction="#clickedEditEvent" text="Edit Event">
+                  <Button fx:id="editEvent" disable="true" mnemonicParsing="false" onAction="#clickedEditEvent" text="Edit Event">
                      <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="pauseSchedule" mnemonicParsing="false" onAction="#clickedPauseSchedule" text="Pause Schedule">
+                  <Button fx:id="pauseSchedule" disable="true" mnemonicParsing="false" onAction="#clickedPauseSchedule" text="Pause Schedule">
                      <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
