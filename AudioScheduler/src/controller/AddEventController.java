@@ -64,7 +64,7 @@ public class AddEventController implements MyController {
 	void displayHomePage() {
 		try 
 		{
-			URL url = Main.class.getResource("../view/MainView.fxml");
+			URL url = Main.class.getResource("/view/MainView.fxml");
 			FXMLLoader loader = new FXMLLoader(url);
 			MainController controller = MainController.getInstance();
 			loader.setController(controller);
@@ -130,8 +130,9 @@ public class AddEventController implements MyController {
 							" /ST " + startTime;
 		
 		String command2 = "SCHTASKS /CREATE /SC DAILY"+
-						  " /TN \"MyTasks\\" + taskName +"stop\""+  
-						  " /TR \"" + filePath + "\\stopVlc.bat\" "
+						  " /TN \"MyTasks\\" + taskName +"stop\""+ 
+						  " /TR \"taskkill /IM vlc.exe /F\" "
+//						  " /TR \"" + filePath + "\\stopVlc.bat\" "
 						  + "/ST " + stopTime;
 				
 		command = command.replace("\\\\", "\\");

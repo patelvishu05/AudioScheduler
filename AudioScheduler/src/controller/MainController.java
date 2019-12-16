@@ -18,6 +18,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.Image;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -63,7 +64,7 @@ public class MainController implements Initializable
 
 		switch(view) 
 		{
-		case VIEW1:	viewString = "../view/AddEvent.fxml";
+		case VIEW1:	viewString = "/view/AddEvent.fxml";
 		controller = new AddEventController();
 		currentView = ViewType.VIEW1;
 		break;
@@ -78,6 +79,7 @@ public class MainController implements Initializable
 			FXMLLoader loader = new FXMLLoader(url);
 			loader.setController(controller);
 			Parent viewNode = loader.load();
+			Main.stage.setTitle("Add Event");
 			borderPane.setCenter(viewNode);
 		}
 		catch (IOException e)
@@ -161,13 +163,15 @@ public class MainController implements Initializable
 	void homePage() {
 		try 
 		{
-			URL url = Main.class.getResource("../view/MainView.fxml");
+			URL url = Main.class.getResource("/view/MainView.fxml");
 			FXMLLoader loader = new FXMLLoader(url);
 			MainController controller = MainController.getInstance();
 			loader.setController(controller);
 			Parent rootNode = loader.load();			
 			controller.setBorderPane((BorderPane) rootNode);
 			Main.stage.setScene(new Scene(rootNode));
+			Main.stage.getIcons().add(new Image("file:logo/logo.png"));
+			Main.stage.setTitle("Audio Scheduler");
 			Main.stage.show();
 			MainController.currentView = ViewType.HOME;
 		} catch (IOException e) {
@@ -203,7 +207,6 @@ public class MainController implements Initializable
 		alert.setTitle("About");
 		alert.setHeaderText(null);
 		alert.setContentText("Made by your very Awesome friend Vishal :) ");
-
 		alert.showAndWait();
 	}
 	
